@@ -17,10 +17,10 @@ public class Controller {
     public void handleStart() {
         if(pomo == null) {
             pomo = new Pomodoro();
-            timer.setText(pomo.toString());
             pomo.displayTimer(timer);
         } else {
             pomo = null;
+            timer.setText("00:00");
         }
     }
 
