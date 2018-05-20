@@ -16,13 +16,15 @@ public class Pomodoro {
     public Pomodoro(Text timeDisplay, int maxSeconds) {
         this.maxSeconds = maxSeconds;
         this.timeDisplay = timeDisplay;
+    }
+
+    public void start() {
         timer = new Timer();
         counter = 0;
         count = new TimerTask() {
             @Override
             public void run() {
                 counter++;
-                System.out.println(counter);
                 System.out.println(Pomodoro.this.toString());
                 displayTimer(Pomodoro.this.timeDisplay);
                 if(counter == maxSeconds) {
@@ -30,9 +32,9 @@ public class Pomodoro {
                 }
             }
         };
-
         timer.scheduleAtFixedRate(count, 1000,1000);
     }
+
 
 
     public Boolean getPaused() {
@@ -46,7 +48,7 @@ public class Pomodoro {
     @Override
     public String toString() {
         // TODO: Turn timer into a string
-        int seconds = (maxSeconds / 1000) - counter;
+        int seconds = maxSeconds - counter;
         int minutes = (int) Math.floor(seconds / 60);
         int secondsRemaining = seconds - (minutes * 60);
         String minStr = String.valueOf(minutes);
