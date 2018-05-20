@@ -1,12 +1,32 @@
 GridPane {
     -fx-background-color: "green";
-    -fx-text-align: center;
     -fx-font-family: "Roboto"
+}
+
+Text {
+    -fx-fill: "white";
+    -fx-margin: 10px 10px;
+}
+
+Button {
+    -fx-fill: "white";
+    -fx-background-color: "tomato";
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+    -fx-border-color: "black";
+    -fx-border-radius: 5px;
+}
+
+HBox {
+    -fx-alignment: center;
+    -fx-spacing: 10px;
 }
 
 .title {
     -fx-fill: "tomato";
     -fx-font-size: 80px;
+    -fx-width: 100%;
+    -fx-text-align: center;
 }
 
 #timer {
