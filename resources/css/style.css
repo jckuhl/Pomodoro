@@ -1,0 +1,17 @@
+GridPane {
+    -fx-background-color: "green";
+    -fx-text-align: center;
+    -fx-font-family: "Roboto"
+}
+
+.title {
+    -fx-fill: "tomato";
+    -fx-font-size: 80px;
+}
+
+#timer {
+    -fx-fill: "white";
+    -fx-background-color: "black";
+    -fx-font-size: 100px;
+    -fx-font-family: "Roboto Mono"
+}
