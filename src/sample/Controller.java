@@ -16,8 +16,7 @@ public class Controller {
 
     public void handleStart() {
         if(pomo == null) {
-            pomo = new Pomodoro();
-            pomo.displayTimer(timer);
+            pomo = new Pomodoro(timer, 1500);
         } else {
             pomo = null;
             timer.setText("00:00");

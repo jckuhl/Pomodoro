@@ -6,13 +6,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Pomodoro {
-    final private int MAX_TIME = 1500000;
+    private int maxSeconds;
     private Boolean paused = false;
     private Timer timer;
     private int counter;
     private TimerTask count;
+    private Text timeDisplay;
 
-    public Pomodoro() {
+    public Pomodoro(Text timeDisplay, int maxSeconds) {
+        this.maxSeconds = maxSeconds;
+        this.timeDisplay = timeDisplay;
         timer = new Timer();
         counter = 0;
         count = new TimerTask() {
@@ -20,11 +23,15 @@ public class Pomodoro {
             public void run() {
                 counter++;
                 System.out.println(counter);
-                System.out.println(toString());
+                System.out.println(Pomodoro.this.toString());
+                displayTimer(Pomodoro.this.timeDisplay);
+                if(counter == maxSeconds) {
+                    timer.cancel();
+                }
             }
         };
 
-        timer.schedule(count, 1000);
+        timer.scheduleAtFixedRate(count, 1000,1000);
     }
 
 
@@ -39,10 +46,18 @@ public class Pomodoro {
     @Override
     public String toString() {
         // TODO: Turn timer into a string
-        int seconds = (MAX_TIME / 1000) - counter;
+        int seconds = (maxSeconds / 1000) - counter;
         int minutes = (int) Math.floor(seconds / 60);
         int secondsRemaining = seconds - (minutes * 60);
-        return String.format("%d:%d", minutes, secondsRemaining);
+        String minStr = String.valueOf(minutes);
+        if(minStr.length() == 1) {
+            minStr = "0" + minStr;
+        }
+        String secStr = String.valueOf(secondsRemaining);
+        if(secStr.length() == 1) {
+            secStr = "0" + secStr;
+        }
+        return String.format("%s:%s", minStr, secStr);
     }
 
     public void togglePause() {
