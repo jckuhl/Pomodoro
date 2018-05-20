@@ -11,17 +11,20 @@ public class Controller {
     @FXML private TextArea txtArea;
     @FXML private VBox logOutput;
     @FXML private Button resumeBtn;
+    @FXML private Button startBtn;
     @FXML private Text timer;
     private Pomodoro pomo;
 
     public void handleStart() {
         if(pomo == null) {
-            pomo = new Pomodoro(timer, 1500);
+            pomo = new Pomodoro(timer, 2);
             pomo.start();
+            startBtn.setText("Stop");
         } else {
             pomo.stop();
             pomo = null;
             timer.setText("00:00");
+            startBtn.setText("Start");
         }
     }
 

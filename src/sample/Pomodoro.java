@@ -26,11 +26,12 @@ public class Pomodoro {
             public void run() {
                 if(!paused) {
                     counter++;
-                    System.out.println(Pomodoro.this.toString());
                     displayTimer(Pomodoro.this.timeDisplay);
                 }
                 if(counter == maxSeconds) {
                     timer.cancel();
+                    Sound sound = new Sound("./resources/sounds/boxing_bell.wav");
+                    sound.playSound();
                 }
             }
         };
@@ -51,7 +52,6 @@ public class Pomodoro {
 
     @Override
     public String toString() {
-        // TODO: Turn timer into a string
         int seconds = maxSeconds - counter;
         int minutes = (int) Math.floor(seconds / 60);
         int secondsRemaining = seconds - (minutes * 60);

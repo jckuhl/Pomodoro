@@ -17,6 +17,11 @@ Button {
     -fx-border-radius: 5px;
 }
 
+StackPane {
+    -fx-background-color: "black";
+    -fx-border-radius: 5px;
+}
+
 HBox {
     -fx-alignment: center;
     -fx-spacing: 10px;
