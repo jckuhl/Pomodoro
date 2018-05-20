@@ -7,35 +7,76 @@ import java.util.TimerTask;
 
 public class Pomodoro {
     private int maxSeconds;
+    private int focusTime;
+    private int breakTime;
     private Boolean paused = false;
     private Timer timer;
     private int counter;
     private TimerTask count;
-    private Text timeDisplay;
+    public enum State {
+            OFF, FOCUSED, BREAK
+    }
+    private State status;
+    private Controller controller;
 
-    public Pomodoro(Text timeDisplay, int maxSeconds) {
-        this.maxSeconds = maxSeconds;
-        this.timeDisplay = timeDisplay;
+    public Pomodoro(Controller controller, int focusTime, int breakTime) {
+        this.maxSeconds = focusTime;
+        this.focusTime = focusTime;
+        this.breakTime = breakTime;
+        this.controller = controller;
+        this.status = State.OFF;
     }
 
     public void start() {
         timer = new Timer();
+        Sound sound = new Sound("./resources/sounds/boxing_bell.wav");
         counter = 0;
         count = new TimerTask() {
             @Override
             public void run() {
+                status = State.FOCUSED;
                 if(!paused) {
                     counter++;
-                    displayTimer(Pomodoro.this.timeDisplay);
+                    displayTimer(controller.getTimer());
+                    handleUpdateStatus(status);
                 }
-                if(counter == maxSeconds) {
-                    timer.cancel();
-                    Sound sound = new Sound("./resources/sounds/boxing_bell.wav");
+                if(counter == maxSeconds && status == State.FOCUSED) {
+                    status = State.BREAK;
+                    counter = 0;
+                    maxSeconds = breakTime;
+                    sound.playSound();
+                }
+                if(counter == maxSeconds && status == State.BREAK) {
+                    status = State.FOCUSED;
+                    counter = 0;
+                    maxSeconds = focusTime;
                     sound.playSound();
                 }
             }
         };
         timer.scheduleAtFixedRate(count, 1000,1000);
+    }
+
+    private void handleUpdateStatus(State state) {
+        switch(state) {
+            case FOCUSED:
+                controller.updateTimerDisplay(Controller.Color.BLACK);
+                break;
+            case BREAK:
+                controller.updateTimerDisplay(Controller.Color.BLUE);
+                break;
+            case OFF:
+                controller.updateTimerDisplay(Controller.Color.GREEN);
+                break;
+        }
+    }
+
+    public void setStatus(State state) {
+        status = state;
+    }
+
+    public State getStatus() {
+        return status;
     }
 
     public void stop() {
