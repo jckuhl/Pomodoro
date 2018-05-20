@@ -29,31 +29,36 @@ public class Pomodoro {
 
     public void start() {
         timer = new Timer();
-        Sound sound = new Sound("./resources/sounds/boxing_bell.wav");
+        String soundFile = "./resources/sounds/boxing_bell.wav";
+        status = State.FOCUSED;
         counter = 0;
         count = new TimerTask() {
             @Override
             public void run() {
-                status = State.FOCUSED;
                 if(!paused) {
                     counter++;
                     displayTimer(controller.getTimer());
-                    handleUpdateStatus(status);
                 }
-                if(counter == maxSeconds && status == State.FOCUSED) {
-                    status = State.BREAK;
-                    counter = 0;
-                    maxSeconds = breakTime;
-                    sound.playSound();
-                }
-                if(counter == maxSeconds && status == State.BREAK) {
-                    status = State.FOCUSED;
-                    counter = 0;
-                    maxSeconds = focusTime;
-                    sound.playSound();
+                if(counter == maxSeconds) {
+                    if (status == State.FOCUSED) {
+                        status = State.BREAK;
+                        counter = 0;
+                        maxSeconds = breakTime;
+                        Sound sound = new Sound(soundFile);
+                        sound.playSound();
+                        handleUpdateStatus(status);
+                    } else {
+                        status = State.FOCUSED;
+                        counter = 0;
+                        maxSeconds = focusTime;
+                        Sound sound = new Sound(soundFile);
+                        sound.playSound();
+                        handleUpdateStatus(status);
+                    }
                 }
             }
         };
+        controller.updateTimerDisplay(Controller.Color.BLACK);
         timer.scheduleAtFixedRate(count, 1000,1000);
     }
 

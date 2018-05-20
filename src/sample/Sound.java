@@ -24,14 +24,22 @@ public class Sound {
     }
 
     public void playSound() {
+        if(clip.isRunning()  || clip.isOpen()) {
+            clip.close();
+        }
         try {
             clip.open(audioIn);
-        } catch(LineUnavailableException lue) {
+        } catch (LineUnavailableException lue) {
             lue.printStackTrace();
-        } catch(IOException ioe) {
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
         clip.start();
+        clip.addLineListener(event -> {
+            if(event.getType() == LineEvent.Type.STOP) {
+                clip.close();
+            }
+        });
     }
 
 }

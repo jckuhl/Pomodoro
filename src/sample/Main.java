@@ -15,7 +15,7 @@ public class Main extends Application {
         Parent root = loader.load();
         primaryStage.setTitle("Pomodoro");
         primaryStage.setScene(new Scene(root, 500, 500));
-        primaryStage.isResizable();
+        primaryStage.setResizable(false);
         primaryStage.setMinHeight(500);
         primaryStage.setMinWidth(500);
         primaryStage.show();

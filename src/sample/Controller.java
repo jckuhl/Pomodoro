@@ -27,14 +27,16 @@ public class Controller {
 
     public void handleStart() {
         if(pomo == null) {
-            pomo = new Pomodoro(this, 1500, 300);
+            pomo = new Pomodoro(this, 5, 5);
             pomo.start();
             startBtn.setText("Stop");
         } else {
+            pomo.setStatus(Pomodoro.State.OFF);
             pomo.stop();
             pomo = null;
             timer.setText("00:00");
             startBtn.setText("Start");
+            updateTimerDisplay(Color.GREEN);
         }
     }
 
