@@ -19,6 +19,7 @@ public class Controller {
             pomo = new Pomodoro(timer, 1500);
             pomo.start();
         } else {
+            pomo.stop();
             pomo = null;
             timer.setText("00:00");
         }

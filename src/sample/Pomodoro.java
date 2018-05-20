@@ -24,9 +24,11 @@ public class Pomodoro {
         count = new TimerTask() {
             @Override
             public void run() {
-                counter++;
-                System.out.println(Pomodoro.this.toString());
-                displayTimer(Pomodoro.this.timeDisplay);
+                if(!paused) {
+                    counter++;
+                    System.out.println(Pomodoro.this.toString());
+                    displayTimer(Pomodoro.this.timeDisplay);
+                }
                 if(counter == maxSeconds) {
                     timer.cancel();
                 }
@@ -35,7 +37,9 @@ public class Pomodoro {
         timer.scheduleAtFixedRate(count, 1000,1000);
     }
 
-
+    public void stop() {
+        timer.cancel();
+    }
 
     public Boolean getPaused() {
         return paused;
@@ -63,13 +67,7 @@ public class Pomodoro {
     }
 
     public void togglePause() {
-        if(paused) {
-            // TODO: Start timer again
-            paused = false;
-        } else {
-            // TODO: Implement pause
-            paused = true;
-        }
+        paused = !paused;
     }
 
 }
